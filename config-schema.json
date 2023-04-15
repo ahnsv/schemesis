@@ -1,0 +1,87 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/config-schema.json",
+    "title": "Schemesis Schema",
+    "description": "JSON schema for the configuration YAML file for Schemesis",
+    "type": "object",
+    "properties": {
+      "global": {
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string",
+            "description": "The locale to use for generating data. For example: 'en_US', 'ja_JP', etc."
+          }
+        }
+      },
+      "fields": {
+        "type": "array",
+        "description": "Array of field-specific configurations",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the field to configure"
+            },
+            "type": {
+              "type": "string",
+              "enum": ["string", "integer", "float", "boolean", "timestamp", "enum", "record", "repeated", "object"],
+              "description": "The type of the field to configure"
+            },
+            "nullable": {
+              "type": "boolean",
+              "description": "Whether the field should be allowed to be null"
+            },
+            "distribution": {
+              "type": "object",
+              "description": "The distribution to use for generating data for the field",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["fixed", "uniform", "normal", "logNormal"],
+                  "description": "The type of distribution to use"
+                },
+                "min": {
+                  "type": "number",
+                  "description": "The minimum value for the distribution"
+                },
+                "max": {
+                  "type": "number",
+                  "description": "The maximum value for the distribution"
+                },
+                "mean": {
+                  "type": "number",
+                  "description": "The mean value for the distribution"
+                },
+                "stdev": {
+                  "type": "number",
+                  "description": "The standard deviation value for the distribution"
+                }
+              }
+            },
+            "values": {
+              "type": "array",
+              "description": "The list of possible values for the field if it is an enum",
+              "items": {
+                "type": "string"
+              }
+            },
+            "fields": {
+              "type": "array",
+              "description": "Array of sub-field-specific configurations if the field is a record",
+              "items": {
+                "$ref": "#/properties/fields/items"
+              }
+            },
+            "items": {
+              "$ref": "#/properties/fields/items",
+              "description": "The sub-field configuration if the field is a repeated field"
+            }
+          },
+          "required": ["name", "type"]
+        }
+      }
+    }
+  }
+  

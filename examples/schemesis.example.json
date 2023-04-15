@@ -1,0 +1,6 @@
+{"fields": [
+    {
+        "name": "hello",
+        "type": "boolean"
+    }
+]}
